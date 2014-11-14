@@ -32,29 +32,6 @@
     });
   });
 
-  // Shiv "filter", "reject" to angular's built-in,
-  // and reserve lodash's feature(works on obj).
-  ng.injector(['ng']).invoke(['$filter', function($filter) {
-    _.filter = _.select = _.wrap($filter('filter'), function(filter, obj, exp) {
-      if(!(_.isArray(obj))) {
-        obj = _.toArray(obj);
-      }
-
-      return filter(obj, exp);
-    });
-
-    _.reject = function(obj, exp) {
-      // use angular built-in negated predicate
-      if(_.isString(exp)) {
-        return _.filter(obj, '!' + exp);
-      }
-
-      var diff = _.bind(_.difference, _, obj);
-
-      return diff(_.filter(obj, exp));
-    };
-  }]);
-
   // end custom _
 
 
